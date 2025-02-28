@@ -21,7 +21,45 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ socket }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  function formatTextToHTML(text) {
+    // Replace **text** with <strong>text</strong> for section headers
+    text = text.replace(/\*\*(.*?)\*\*/gs, "<strong>$1</strong>");
 
+    // Convert text to HTML paragraphs and list items
+    let formattedText = "";
+    let lines = text.split("\n"); // Split the text into lines
+
+    // Process each line
+    for (let line of lines) {
+      if (line.trim().length === 0) continue; // Skip empty lines
+
+      if (line.trim().startsWith("*")) {
+        // Handle lines that start with '*', treating them as list items
+        formattedText += `<li>${line.trim().substring(1).trim()}</li>`;
+      } else {
+        // Other lines are treated as paragraphs
+        // Close any open list with </ul> before starting a new paragraph
+        if (formattedText.endsWith("</li>")) {
+          formattedText += "</ul>";
+        }
+        formattedText += `<p>${line.trim()}</p>`;
+        // Start a new list if the next line is a bullet point
+        if (
+          lines.indexOf(line) < lines.length - 1 &&
+          lines[lines.indexOf(line) + 1].trim().startsWith("*")
+        ) {
+          formattedText += "<ul>";
+        }
+      }
+    }
+
+    // Close any open list tags at the end of the text
+    if (formattedText.endsWith("</li>")) {
+      formattedText += "</ul>";
+    }
+
+    return formattedText;
+  }
   const token = localStorage.getItem("token");
 
   /**
@@ -139,8 +177,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ socket }) => {
                     ? "bg-blue-500 text-white rounded-br-none"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none"
                 }`}
+                dangerouslySetInnerHTML={{
+                  __html: formatTextToHTML(msg.parts[0]?.text),
+                }}
               >
-                {msg.parts[0]?.text}
+     
               </div>
             </div>
           )

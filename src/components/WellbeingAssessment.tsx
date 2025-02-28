@@ -282,7 +282,10 @@ export function WellbeingAssessment({ onComplete }: { onComplete: (tips: Wellbei
       const results = calculateResults(answers);
       const tips = generateTips(results);
       onComplete(tips);
-      
+      console.log({
+        answers,
+        date: new Date().toISOString()
+      })
       // Save responses to localStorage
       localStorage.setItem('wellbeingAssessment', JSON.stringify({
         answers,
