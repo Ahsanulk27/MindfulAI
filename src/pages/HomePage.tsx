@@ -18,19 +18,19 @@ export function HomePage() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <FeatureCard
-          to="/chat"
+          to="/"
           icon={<MessageCircle className="w-8 h-8 text-blue-500" />}
           title="AI Chat Support"
           description="Talk to our AI companion about your feelings, concerns, or just to check in."
         />
         <FeatureCard
-          to="/mood-tracker"
+          to="/"
           icon={<BarChart2 className="w-8 h-8 text-green-500" />}
           title="Mood Tracking"
           description="Track your emotional patterns over time to gain insights into your mental health."
         />
         <FeatureCard
-          to="/wellbeing-plan"
+          to="/"
           icon={<ListChecks className="w-8 h-8 text-purple-500" />}
           title="Wellbeing Plan"
           description="Get personalized recommendations for improving your mental health."

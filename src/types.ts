@@ -13,7 +13,8 @@ export interface MoodEntry {
   date: Date;
   mood: 1 | 2 | 3 | 4 | 5;
   note?: string;
-}
+  scores?: number[]; 
+}  
 
 export interface WellbeingTip {
   id: string;
